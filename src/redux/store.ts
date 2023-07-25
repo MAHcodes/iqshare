@@ -1,11 +1,28 @@
 import { configureStore } from "@reduxjs/toolkit";
+import { combineReducers } from "redux";
 import userReducer from "../features/user/userSlice";
+import { persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
+import { persistStore } from "redux-persist";
+
+const rootReducer = combineReducers({
+  user: userReducer,
+});
+
+const persistConfig = {
+  key: "IQShareReduxState",
+  storage,
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+export default persistReducer;
 
 export const store = configureStore({
-  reducer: {
-    user: userReducer,
-  },
+  reducer: persistedReducer,
 });
+
+export const persistor = persistStore(store);
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;

@@ -1,7 +1,11 @@
 import { styled } from "@mui/material";
 import Logo from "../Logo";
+import AccountMenu from "./AccountMenu";
 
 const StyledHeader = styled("header")(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
   paddingBlock: theme.spacing(1),
   paddingInline: theme.spacing(2),
   borderRadius: theme.shape.borderRadius,
@@ -13,6 +17,7 @@ const Header = () => {
   return (
     <StyledHeader>
       <Logo />
+      <AccountMenu />
     </StyledHeader>
   );
 };

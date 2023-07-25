@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { isRouteErrorResponse, useRouteError } from "react-router-dom";
 import { styled } from "@mui/system";
 

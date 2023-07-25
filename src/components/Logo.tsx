@@ -1,4 +1,4 @@
-import { Avatar, Typography, styled } from "@mui/material";
+import { Avatar, styled } from "@mui/material";
 import { Link } from "react-router-dom";
 import logo from "/logo.svg";
 import withResponsiveIconLabel from "./HOC/withResponsiveIconLabel";

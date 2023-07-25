@@ -10,17 +10,10 @@ import PersonAdd from "@mui/icons-material/PersonAdd";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { add } from "../../features/user/userSlice";
-import { RootState } from "../../redux/store";
 
 export default function AccountMenu() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const { name: username, email: useremail } = useSelector(
-    (state: RootState) => state.user,
-  );
   const open = Boolean(anchorEl);
-  const dispatch = useDispatch();
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);

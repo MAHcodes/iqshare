@@ -1,3 +1,6 @@
+// FIXME:
+/* eslint-disable react/display-name */
+/* eslint-disable react-refresh/only-export-components */
 import { Typography, TypographyProps, styled } from "@mui/material";
 import { ReactNode } from "react";
 

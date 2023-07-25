@@ -1,15 +1,22 @@
-import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import NotFound from "./routes/404";
+import CustomThemeProvider from "./components/theme";
+import Root from "./routes";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <div>Hello world!</div>,
+    element: <Root />,
+    errorElement: <NotFound />,
   },
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <CustomThemeProvider>
+      <RouterProvider router={router} />
+    </CustomThemeProvider>
+  );
 }
 
 export default App;

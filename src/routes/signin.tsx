@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import PatternBackground from "../components/PatternBackground";
 import logo from "/logo.svg";
-import SignInForm from "../components/SignInForm";
+import SignForm from "../components/SignForm";
 import { useLocation } from "react-router-dom";
 import { SIGNIN } from "./routes";
 
@@ -35,22 +35,7 @@ const SignIn = () => {
         <Typography sx={{ textAlign: "center" }}>{method}</Typography>
 
         <CardContent>
-          <SignInForm
-            data={{
-              login: location.pathname === SIGNIN,
-              textFields: [
-                {
-                  label: "Name",
-                  placeholder: "John Doe",
-                },
-                {
-                  label: "Email",
-                  placeholder: "email@example.com",
-                },
-              ],
-              action: () => {},
-            }}
-          />
+          <SignForm login={location.pathname === SIGNIN} />
         </CardContent>
       </Card>
     </PatternBackground>

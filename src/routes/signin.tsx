@@ -8,13 +8,18 @@ import {
 import PatternBackground from "../components/PatternBackground";
 import logo from "/logo.svg";
 import SignInForm from "../components/SignInForm";
+import { useLocation } from "react-router-dom";
+import { SIGNIN } from "./routes";
 
 const SignIn = () => {
+  const location = useLocation();
+  const method = location.pathname === SIGNIN ? "Log In" : "Sign Up";
+
   return (
     <PatternBackground>
-      <Card>
+      <Card sx={{ width: "100%", maxWidth: "450px" }}>
         <CardHeader
-          title="Welcome to IQShare!"
+          title="IQShare"
           avatar={
             <Avatar
               src={logo}
@@ -27,12 +32,25 @@ const SignIn = () => {
           }
         />
 
-        <Typography variant="h5" sx={{ textAlign: "center" }}>
-          Sign In
-        </Typography>
+        <Typography sx={{ textAlign: "center" }}>{method}</Typography>
 
         <CardContent>
-          <SignInForm />
+          <SignInForm
+            data={{
+              login: location.pathname === SIGNIN,
+              textFields: [
+                {
+                  label: "Name",
+                  placeholder: "John Doe",
+                },
+                {
+                  label: "Email",
+                  placeholder: "email@example.com",
+                },
+              ],
+              action: () => {},
+            }}
+          />
         </CardContent>
       </Card>
     </PatternBackground>

@@ -3,15 +3,20 @@ import NotFound from "./routes/404";
 import Root from "./routes";
 import ProtectedRoute from "./components/ProtectedRoute";
 import SignIn from "./routes/signin";
+import * as ROUTES from "./routes/routes";
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: ROUTES.ROOT,
     element: <ProtectedRoute Route={<Root />} />,
     errorElement: <NotFound />,
   },
   {
-    path: "/signin",
+    path: ROUTES.SIGNUP,
+    element: <SignIn />,
+  },
+  {
+    path: ROUTES.SIGNIN,
     element: <SignIn />,
   },
 ]);

@@ -21,7 +21,7 @@ const Shadow = styled("div")({
   position: "absolute",
   width: "100%",
   height: "100%",
-  boxShadow: "inset 0 0 200px 100px black",
+  boxShadow: "inset 0 0 200px 75px black",
   zIndex: 1,
 });
 

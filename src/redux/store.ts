@@ -9,8 +9,10 @@ const rootReducer = combineReducers({
   user: userReducer,
 });
 
+export const PERSIST_CONFIG_KEY = "IQShareReduxState";
+
 const persistConfig = {
-  key: "IQShareReduxState",
+  key: PERSIST_CONFIG_KEY,
   storage,
 };
 

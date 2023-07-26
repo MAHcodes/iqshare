@@ -23,8 +23,8 @@ const SignIn = () => {
           avatar={
             <Avatar
               src={logo}
+              variant="square"
               sx={{
-                borderRadius: 0,
                 width: 32,
                 height: 32,
               }}

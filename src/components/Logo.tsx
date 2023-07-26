@@ -22,7 +22,7 @@ const SecondaryTxt = styled("span")(({ theme }) => ({
 }));
 
 const ResponsiveLogo = withResponsiveIconLabel(
-  <Avatar sx={{ borderRadius: 0 }} src={logo} alt="iqshare logo" />,
+  <Avatar variant="square" src={logo} alt="iqshare logo" />,
 );
 
 const Logo = () => (

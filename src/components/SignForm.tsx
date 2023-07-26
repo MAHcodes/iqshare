@@ -1,9 +1,13 @@
+// TODO: refactor
 import { Box, Button, Divider } from "@mui/material";
 import TextField from "./TextField";
-import { Link } from "react-router-dom";
-import { SIGNIN, SIGNUP } from "../routes/routes";
+import { Link, useNavigate } from "react-router-dom";
+import { ROOT, SIGNIN, SIGNUP } from "../routes/routes";
 import { FC } from "react";
 import { useFormik } from "formik";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { add } from "../redux/features/user/userSlice";
 
 interface ISignInFormProps {
   login: boolean;
@@ -25,14 +29,28 @@ const validate = (values: { name: string; email: string }) => {
 };
 
 const SignForm: FC<ISignInFormProps> = ({ login }) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const formik = useFormik({
     initialValues: {
-      name: "",
-      email: "",
+      name: "name",
+      email: "email@example.com",
     },
     validate,
     onSubmit: (values) => {
-      console.log(values);
+      if (login) {
+        axios.post("https:localhost:5001/api/Users", values).then((res) => {
+          if (res.status === 200) {
+            dispatch(
+              add({ name: res.data.data.username, email: res.data.data.email }),
+            );
+            navigate(ROOT);
+          }
+        });
+      } else {
+        dispatch(add({ name: values.name, email: values.email }));
+      }
     },
   });
 
@@ -48,26 +66,20 @@ const SignForm: FC<ISignInFormProps> = ({ login }) => {
       }}
     >
       <TextField
-        name="name"
         label="Name"
         placeholder="John Doe"
         required={true}
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-        value={formik.values.name}
         error={formik.touched.name && !!formik.errors.name}
         helperText={formik.touched.name ? formik.errors.name : ""}
+        {...formik.getFieldProps("name")}
       />
       <TextField
-        name="email"
         label="Email"
         placeholder="email@example.com"
         required={true}
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-        value={formik.values.email}
         error={formik.touched.email && !!formik.errors.email}
         helperText={formik.touched.email ? formik.errors.email : ""}
+        {...formik.getFieldProps("email")}
       />
 
       <Button

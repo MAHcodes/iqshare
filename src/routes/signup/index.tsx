@@ -7,14 +7,9 @@ import {
 } from "@mui/material";
 import PatternBackground from "../../components/PatternBackground";
 import logo from "/logo.svg";
-import SignForm from "../../components/SignForm";
-import { useLocation } from "react-router-dom";
-import { SIGNIN } from "../routes";
+import SignUpForm from "./SignUpForm";
 
 const SignIn = () => {
-  const location = useLocation();
-  const method = location.pathname === SIGNIN ? "Log In" : "Sign Up";
-
   return (
     <PatternBackground>
       <Card sx={{ width: "100%", maxWidth: "450px" }}>
@@ -32,10 +27,10 @@ const SignIn = () => {
           }
         />
 
-        <Typography sx={{ textAlign: "center" }}>{method}</Typography>
+        <Typography sx={{ textAlign: "center" }}>Sign Up</Typography>
 
         <CardContent>
-          <SignForm login={location.pathname === SIGNIN} />
+          <SignUpForm />
         </CardContent>
       </Card>
     </PatternBackground>

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { FC, ReactNode, useEffect, useState } from "react";
 import { RootState } from "../redux/store";
 import Loading from "./Loading";
+import { SIGNUP } from "../routes/routes";
 
 interface IProtectedRoutesProps {
   Route: ReactNode;
@@ -15,7 +16,7 @@ const ProtectedRoute: FC<IProtectedRoutesProps> = ({ Route }) => {
 
   useEffect(() => {
     if (!name || !email) {
-      navigate("/signin", { replace: true });
+      navigate(SIGNUP, { replace: true });
     }
     setLoading(false);
   }, [name, email, navigate]);

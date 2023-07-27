@@ -1,18 +1,16 @@
 // TODO: refactor
-import { Box, Button, Divider } from "@mui/material";
-import TextField from "./TextField";
-import { Link, useNavigate } from "react-router-dom";
-import { ROOT, SIGNIN, SIGNUP } from "../routes/routes";
+import { Box, Button } from "@mui/material";
+import TextField from "../../components/TextField";
+import { useNavigate } from "react-router-dom";
+import { ROOT } from "../../routes/routes";
 import { FC, useContext } from "react";
 import { useFormik } from "formik";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { add } from "../redux/features/user/userSlice";
-import { SnackContext } from "../context/snack-provider";
+import { add } from "../../redux/features/user/userSlice";
+import { SnackContext } from "../../context/snack-provider";
 
-interface ISignInFormProps {
-  login: boolean;
-}
+interface ISignInFormProps {}
 
 const validate = (values: { name: string; email: string }) => {
   const errors: { name?: string; email?: string } = {};
@@ -29,7 +27,7 @@ const validate = (values: { name: string; email: string }) => {
   return errors;
 };
 
-const SignForm: FC<ISignInFormProps> = ({ login }) => {
+const SignForm: FC<ISignInFormProps> = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { setSnack } = useContext(SnackContext);
@@ -41,33 +39,27 @@ const SignForm: FC<ISignInFormProps> = ({ login }) => {
     },
     validate,
     onSubmit: (values) => {
-      if (login) {
-        axios
-          .post("https:localhost:5001/api/Users", values)
-          .then((res) => {
-            if (res.status === 200) {
-              dispatch(
-                add({
-                  name: res.data.data.username,
-                  email: res.data.data.email,
-                }),
-              );
-              setSnack({
-                message: `Welcome ${res.data.data.name}`,
-                severity: "success",
-              });
-              navigate(ROOT);
-            }
-          })
-          .catch((e) => {
-            console.error(e);
-            setSnack({ message: e.message, severity: "error" });
-          });
-      } else {
-        dispatch(add({ name: values.name, email: values.email }));
-        setSnack({ message: `Welcome ${values.name}!`, severity: "success" });
-        navigate(ROOT);
-      }
+      axios
+        .post("https:localhost:5001/api/Users", values)
+        .then((res) => {
+          if (res.status === 200) {
+            dispatch(
+              add({
+                name: res.data.data.username,
+                email: res.data.data.email,
+              }),
+            );
+            setSnack({
+              message: `Welcome ${res.data.data.name}`,
+              severity: "success",
+            });
+            navigate(ROOT);
+          }
+        })
+        .catch((e) => {
+          console.error(e);
+          setSnack({ message: e.message, severity: "error" });
+        });
     },
   });
 
@@ -105,16 +97,8 @@ const SignForm: FC<ISignInFormProps> = ({ login }) => {
         size="large"
         variant="contained"
       >
-        {login ? "Log In" : "Sign Up"}
+        Sign Up
       </Button>
-
-      <Divider>OR</Divider>
-
-      <center>
-        {login ? "no " : "have an "}
-        account?&nbsp;
-        <Link to={login ? SIGNUP : SIGNIN}>{login ? "Sign Up" : "Login"}</Link>
-      </center>
     </Box>
   );
 };

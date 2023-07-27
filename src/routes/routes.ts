@@ -1,6 +1,5 @@
 export const ROOT = "/";
-export const SIGNIN = "/login";
-export const SIGNUP = "/signin";
+export const SIGNUP = "/signup";
 export const SETTINGS = "/settings";
 export const PROFILE = "/profile";
 export const WRITE = "/write";

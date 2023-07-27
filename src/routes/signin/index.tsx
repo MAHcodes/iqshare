@@ -5,11 +5,11 @@ import {
   CardHeader,
   Typography,
 } from "@mui/material";
-import PatternBackground from "../components/PatternBackground";
+import PatternBackground from "../../components/PatternBackground";
 import logo from "/logo.svg";
-import SignForm from "../components/SignForm";
+import SignForm from "../../components/SignForm";
 import { useLocation } from "react-router-dom";
-import { SIGNIN } from "./routes";
+import { SIGNIN } from "../routes";
 
 const SignIn = () => {
   const location = useLocation();

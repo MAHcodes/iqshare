@@ -3,3 +3,4 @@ export const SIGNIN = "/login";
 export const SIGNUP = "/signin";
 export const SETTINGS = "/settings";
 export const PROFILE = "/profile";
+export const WRITE = "/write";

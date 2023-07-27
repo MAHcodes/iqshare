@@ -1,6 +1,8 @@
-import { styled } from "@mui/material";
+import { Box, Button, styled } from "@mui/material";
 import Logo from "../Logo";
 import AccountMenu from "./AccountMenu";
+import { WRITE } from "../../routes/routes";
+import { Edit } from "@mui/icons-material";
 
 const StyledHeader = styled("header")(({ theme }) => ({
   display: "flex",
@@ -17,7 +19,16 @@ const Header = () => {
   return (
     <StyledHeader>
       <Logo />
-      <AccountMenu />
+      <Box
+        sx={{
+          display: "flex",
+        }}
+      >
+        <Button href={WRITE} variant="outlined" startIcon={<Edit />}>
+          Write
+        </Button>
+        <AccountMenu />
+      </Box>
     </StyledHeader>
   );
 };

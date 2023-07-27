@@ -1,5 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { useState } from "react";
+import { DEFAULT_CONFIG } from "../config/axios";
 
 interface IState {
   loading: boolean;
@@ -23,15 +24,10 @@ const useAxios = (config: AxiosRequestConfig) => {
     });
     try {
       const response = await axios.request({
-        cancelToken: source.token,
-        method: "GET",
-        baseURL: "https:localhost:5001",
-        headers: {
-          Accept: "text/plain",
-          "Content-Type": "application/json",
-        },
+        ...DEFAULT_CONFIG,
         data,
         ...config,
+        cancelToken: source.token,
       });
       setState({
         loading: false,

@@ -1,12 +1,15 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import NotFound from "./routes/404";
 import Root from "./routes";
 import ProtectedRoute from "./components/ProtectedRoute";
-import SignUp from "./routes/signup";
 import * as ROUTES from "./routes/routes";
-import Write from "./routes/write";
-import Settings from "./routes/settings";
-import Profile from "./routes/profile";
+import withSuspense from "./components/HOC/Loader";
+import { lazy } from "react";
+
+const Profile = withSuspense(lazy(() => import("./routes/profile")));
+const Settings = withSuspense(lazy(() => import("./routes/settings")));
+const Write = withSuspense(lazy(() => import("./routes/write")));
+const SignUp = withSuspense(lazy(() => import("./routes/signup")));
+const NotFound = withSuspense(lazy(() => import("./routes/404")));
 
 const router = createBrowserRouter([
   {

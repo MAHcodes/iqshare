@@ -3,12 +3,12 @@ import { Box, Button } from "@mui/material";
 import TextField from "../../components/TextField";
 import { useNavigate } from "react-router-dom";
 import { ROOT } from "../../routes/routes";
-import { FC, useContext } from "react";
+import { FC, useContext, useEffect } from "react";
 import { useFormik } from "formik";
-import axios from "axios";
 import { useDispatch } from "react-redux";
 import { add } from "../../redux/features/user/userSlice";
 import { SnackContext } from "../../context/snack-provider";
+import useAxios from "../../hooks/useAxios";
 
 interface ISignInFormProps {}
 
@@ -32,6 +32,32 @@ const SignForm: FC<ISignInFormProps> = () => {
   const dispatch = useDispatch();
   const { setSnack } = useContext(SnackContext);
 
+  const { loading, error, response, sendItBaby } = useAxios({
+    url: "/api/Users",
+    method: "POST",
+  });
+
+  useEffect(() => {
+    if (error) {
+      setSnack({ message: error, severity: "error" });
+    }
+    if (!loading && !error) {
+      if (response?.status === 200) {
+        dispatch(
+          add({
+            name: response.data.data.username,
+            email: response.data.data.email,
+          }),
+        );
+        setSnack({
+          message: `Welcome ${response.data.data.username}`,
+          severity: "success",
+        });
+        navigate(ROOT);
+      }
+    }
+  }, [error, loading, response, setSnack, dispatch, navigate]);
+
   const formik = useFormik({
     initialValues: {
       name: "name",
@@ -39,27 +65,28 @@ const SignForm: FC<ISignInFormProps> = () => {
     },
     validate,
     onSubmit: (values) => {
-      axios
-        .post("https:localhost:5001/api/Users", values)
-        .then((res) => {
-          if (res.status === 200) {
-            dispatch(
-              add({
-                name: res.data.data.username,
-                email: res.data.data.email,
-              }),
-            );
-            setSnack({
-              message: `Welcome ${res.data.data.username}`,
-              severity: "success",
-            });
-            navigate(ROOT);
-          }
-        })
-        .catch((e) => {
-          console.error(e);
-          setSnack({ message: e.message, severity: "error" });
+      sendItBaby({
+        name: values.name,
+        email: values.email,
+      });
+      console.log({
+        error,
+        loading,
+        response,
+      });
+      if (!loading && response?.status === 200) {
+        dispatch(
+          add({
+            name: response.data.data.username,
+            email: response.data.data.email,
+          }),
+        );
+        setSnack({
+          message: `Welcome ${response.data.data.username}`,
+          severity: "success",
         });
+        navigate(ROOT);
+      }
     },
   });
 

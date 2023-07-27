@@ -1,14 +1,26 @@
-import axios, { AxiosRequestConfig } from "axios";
+import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { useState } from "react";
 
-const useAxios = (config: AxiosRequestConfig) => {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [data, setData] = useState(null);
+interface IState {
+  loading: boolean;
+  error: string;
+  response: AxiosResponse | null;
+}
 
-  const sendItBaby = async () => {
+const useAxios = (config: AxiosRequestConfig) => {
+  const [state, setState] = useState<IState>({
+    loading: false,
+    error: "",
+    response: null,
+  });
+
+  const sendItBaby = async (data?: unknown) => {
     const source = axios.CancelToken.source();
-    setLoading(true);
+    setState({
+      error: "",
+      response: null,
+      loading: true,
+    });
     try {
       const response = await axios.request({
         cancelToken: source.token,
@@ -18,21 +30,26 @@ const useAxios = (config: AxiosRequestConfig) => {
           Accept: "text/plain",
           "Content-Type": "application/json",
         },
+        data,
         ...config,
       });
-      setData(response?.data);
-      setError("");
+      setState({
+        loading: false,
+        response,
+        error: "",
+      });
     } catch (e) {
       console.error(e);
-      setError((e as Error).message);
-      setData(null);
-    } finally {
-      setLoading(false);
+      setState({
+        error: (e as Error).message,
+        response: null,
+        loading: false,
+      });
     }
     return source.cancel;
   };
 
-  return { loading, error, data, sendItBaby };
+  return { sendItBaby, ...state };
 };
 
 export default useAxios;

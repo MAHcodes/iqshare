@@ -1,6 +1,6 @@
-import { IconButton, Snackbar } from "@mui/material";
+import { Alert, IconButton, Snackbar } from "@mui/material";
 import { FC, ReactNode, useContext } from "react";
-import { NotifyContext } from "../context/notify-provider";
+import { SnackContext } from "../context/snack-provider";
 import CloseIcon from "@mui/icons-material/Close";
 
 interface ISnackbarProps {
@@ -8,24 +8,31 @@ interface ISnackbarProps {
 }
 
 const CustomSnackbar: FC<ISnackbarProps> = ({ children }) => {
-  const { message, clearNotify } = useContext(NotifyContext);
+  const {
+    message,
+    severity,
+    clearSnack: clearNotify,
+  } = useContext(SnackContext);
   return (
     <>
       {children}
       <Snackbar
         open={message !== ""}
-        message={message}
-        action={
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      >
+        <Alert severity={severity} sx={{ width: "100%" }}>
+          {message}
           <IconButton
             size="small"
             aria-label="close"
             color="inherit"
             onClick={clearNotify}
+            sx={{ ml: 1 }}
           >
             <CloseIcon fontSize="small" />
           </IconButton>
-        }
-      />
+        </Alert>
+      </Snackbar>
     </>
   );
 };

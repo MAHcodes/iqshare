@@ -3,11 +3,12 @@ import { Box, Button, Divider } from "@mui/material";
 import TextField from "./TextField";
 import { Link, useNavigate } from "react-router-dom";
 import { ROOT, SIGNIN, SIGNUP } from "../routes/routes";
-import { FC } from "react";
+import { FC, useContext } from "react";
 import { useFormik } from "formik";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { add } from "../redux/features/user/userSlice";
+import { SnackContext } from "../context/snack-provider";
 
 interface ISignInFormProps {
   login: boolean;
@@ -31,6 +32,7 @@ const validate = (values: { name: string; email: string }) => {
 const SignForm: FC<ISignInFormProps> = ({ login }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { setSnack } = useContext(SnackContext);
 
   const formik = useFormik({
     initialValues: {
@@ -40,16 +42,31 @@ const SignForm: FC<ISignInFormProps> = ({ login }) => {
     validate,
     onSubmit: (values) => {
       if (login) {
-        axios.post("https:localhost:5001/api/Users", values).then((res) => {
-          if (res.status === 200) {
-            dispatch(
-              add({ name: res.data.data.username, email: res.data.data.email }),
-            );
-            navigate(ROOT);
-          }
-        });
+        axios
+          .post("https:localhost:5001/api/Users", values)
+          .then((res) => {
+            if (res.status === 200) {
+              dispatch(
+                add({
+                  name: res.data.data.username,
+                  email: res.data.data.email,
+                }),
+              );
+              setSnack({
+                message: `Welcome ${res.data.data.name}`,
+                severity: "success",
+              });
+              navigate(ROOT);
+            }
+          })
+          .catch((e) => {
+            console.error(e);
+            setSnack({ message: e.message, severity: "error" });
+          });
       } else {
         dispatch(add({ name: values.name, email: values.email }));
+        setSnack({ message: `Welcome ${values.name}!`, severity: "success" });
+        navigate(ROOT);
       }
     },
   });

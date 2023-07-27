@@ -3,6 +3,7 @@ import Logo from "../Logo";
 import AccountMenu from "./AccountMenu";
 import { WRITE } from "../../routes/routes";
 import { Edit } from "@mui/icons-material";
+import { useLocation } from "react-router-dom";
 
 const StyledHeader = styled("header")(({ theme }) => ({
   display: "flex",
@@ -16,6 +17,9 @@ const StyledHeader = styled("header")(({ theme }) => ({
 }));
 
 const Header = () => {
+  const location = useLocation();
+  const isWritePage = location.pathname === WRITE;
+
   return (
     <StyledHeader>
       <Logo />
@@ -24,9 +28,11 @@ const Header = () => {
           display: "flex",
         }}
       >
-        <Button href={WRITE} variant="outlined" startIcon={<Edit />}>
-          Write
-        </Button>
+        {!isWritePage && (
+          <Button href={WRITE} variant="outlined" startIcon={<Edit />}>
+            Write
+          </Button>
+        )}
         <AccountMenu />
       </Box>
     </StyledHeader>

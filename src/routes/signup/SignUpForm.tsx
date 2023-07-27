@@ -50,7 +50,7 @@ const SignForm: FC<ISignInFormProps> = () => {
               }),
             );
             setSnack({
-              message: `Welcome ${res.data.data.name}`,
+              message: `Welcome ${res.data.data.username}`,
               severity: "success",
             });
             navigate(ROOT);

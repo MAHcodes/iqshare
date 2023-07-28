@@ -1,13 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import { ROOT } from "../../routes/routes";
-import { FC, useContext, useEffect } from "react";
+import { FC, useEffect } from "react";
 import { useFormik } from "formik";
 import { useDispatch } from "react-redux";
 import { add } from "../../redux/features/user/userSlice";
-import { SnackContext } from "../../context/snack-provider";
 import useAxios from "../../hooks/useAxios";
 import SignUpForm from "./SignUpForm";
-import Loading from "../../components/Loading";
+import AxiosHandler from "../../components/AxiosHandler";
 
 interface ISignInFormProps {}
 
@@ -29,7 +28,6 @@ const validate = (values: { name: string; email: string }) => {
 const SignUpContainer: FC<ISignInFormProps> = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { setSnack } = useContext(SnackContext);
 
   const { loading, error, response, sendItBaby, source } = useAxios({
     url: "/Users",
@@ -37,28 +35,19 @@ const SignUpContainer: FC<ISignInFormProps> = () => {
   });
 
   useEffect(() => {
-    if (error) {
-      setSnack({ message: error, severity: "error" });
-    }
-    if (!loading && !error) {
-      if (response?.status === 200) {
-        dispatch(
-          add({
-            id: response.data.data.id,
-            name: response.data.data.username,
-            email: response.data.data.email,
-          }),
-        );
-        setSnack({
-          message: response.data.message,
-          severity: "success",
-        });
-        navigate(ROOT);
-      }
+    if (response?.status === 200) {
+      dispatch(
+        add({
+          id: response.data.data.id,
+          name: response.data.data.username,
+          email: response.data.data.email,
+        }),
+      );
+      navigate(ROOT);
     }
 
     return () => source?.cancel();
-  }, [error, loading, response, setSnack, dispatch, navigate, source]);
+  }, [dispatch, navigate, response, source]);
 
   const formik = useFormik({
     initialValues: {
@@ -76,7 +65,15 @@ const SignUpContainer: FC<ISignInFormProps> = () => {
     },
   });
 
-  return loading ? <Loading fullscreen /> : <SignUpForm formik={formik} />;
+  return (
+    <AxiosHandler
+      error={error}
+      loading={loading}
+      success={response?.data.message}
+    >
+      <SignUpForm formik={formik} />
+    </AxiosHandler>
+  );
 };
 
 export default SignUpContainer;

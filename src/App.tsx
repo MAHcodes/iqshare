@@ -5,6 +5,7 @@ import * as ROUTES from "./routes/routes";
 import WithSuspense from "./components/HOC/Loader";
 import { lazy } from "react";
 
+const Feed = WithSuspense(lazy(() => import("./routes/feed")));
 const Profile = WithSuspense(lazy(() => import("./routes/profile")));
 const Settings = WithSuspense(lazy(() => import("./routes/settings")));
 const Write = WithSuspense(lazy(() => import("./routes/write")));
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
     element: <ProtectedRoute Route={<Root />} />,
     errorElement: <NotFound />,
     children: [
+      {
+        path: ROUTES.ROOT,
+        element: <Feed />,
+      },
       {
         path: ROUTES.WRITE,
         element: <Write />,

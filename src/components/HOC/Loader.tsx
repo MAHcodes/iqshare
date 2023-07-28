@@ -2,13 +2,15 @@ import { ComponentType, HTMLAttributes, Suspense } from "react";
 
 import Loading from "../Loading";
 
-const withSuspense =
-  <T extends HTMLAttributes<HTMLElement>>(Component: ComponentType<T>) =>
-  // eslint-disable-next-line react/display-name
-  (props: T) => (
+const WithSuspense = <T extends HTMLAttributes<HTMLElement>>(
+  Component: ComponentType<T>,
+) => {
+  const EnhancedWithSuspense = (props: T) => (
     <Suspense fallback={<Loading fullscreen />}>
       <Component {...props} />
     </Suspense>
   );
+  return EnhancedWithSuspense;
+};
 
-export default withSuspense;
+export default WithSuspense;

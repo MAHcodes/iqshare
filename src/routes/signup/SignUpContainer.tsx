@@ -32,7 +32,7 @@ const SignUpContainer: FC<ISignInFormProps> = () => {
   const { setSnack } = useContext(SnackContext);
 
   const { loading, error, response, sendItBaby, source } = useAxios({
-    url: "/api/Users",
+    url: "/Users",
     method: "POST",
   });
 

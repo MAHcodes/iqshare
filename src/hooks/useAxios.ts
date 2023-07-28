@@ -13,7 +13,7 @@ interface IState {
   source: CancelTokenSource | null;
 }
 
-const useAxios = (axiosConfig: AxiosRequestConfig) => {
+const useAxios = (axiosConfig?: AxiosRequestConfig) => {
   const [state, setState] = useState<IState>({
     loading: false,
     error: "",

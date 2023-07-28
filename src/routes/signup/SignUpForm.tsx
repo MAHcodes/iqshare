@@ -21,7 +21,7 @@ const SignUpForm: FC<ISignInFormProps> = ({ formik }) => (
     <TextField
       label="Name"
       placeholder="John Doe"
-      required={true}
+      required
       error={formik.touched.name && !!formik.errors.name}
       helperText={formik.touched.name ? formik.errors.name : ""}
       {...formik.getFieldProps("name")}
@@ -29,7 +29,7 @@ const SignUpForm: FC<ISignInFormProps> = ({ formik }) => (
     <TextField
       label="Email"
       placeholder="email@example.com"
-      required={true}
+      required
       error={formik.touched.email && !!formik.errors.email}
       helperText={formik.touched.email ? formik.errors.email : ""}
       {...formik.getFieldProps("email")}

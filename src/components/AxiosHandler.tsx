@@ -23,11 +23,11 @@ const AxiosHandler: FC<IAxiosHandlerProps> = ({
       return;
     }
     if (success) {
-      setSnack({ message: success, severity: "error" });
+      setSnack({ message: success, severity: "success" });
     }
   }, [error, success, setSnack]);
 
-  return <>{loading ? <Loading fullscreen /> : { children }}</>;
+  return loading ? <Loading fullscreen /> : children;
 };
 
 export default AxiosHandler;

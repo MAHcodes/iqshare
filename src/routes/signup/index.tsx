@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import PatternBackground from "../../components/PatternBackground";
 import logo from "/logo.svg";
-import SignUpForm from "./SignUpForm";
+import SignUpContainer from "./SignUpContainer";
 
 const SignIn = () => {
   return (
@@ -30,7 +30,7 @@ const SignIn = () => {
         <Typography sx={{ textAlign: "center" }}>Sign Up</Typography>
 
         <CardContent>
-          <SignUpForm />
+          <SignUpContainer />
         </CardContent>
       </Card>
     </PatternBackground>

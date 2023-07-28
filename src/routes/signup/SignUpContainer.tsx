@@ -7,6 +7,7 @@ import { add } from "../../redux/features/user/userSlice";
 import { SnackContext } from "../../context/snack-provider";
 import useAxios from "../../hooks/useAxios";
 import SignUpForm from "./SignUpForm";
+import Loading from "../../components/Loading";
 
 interface ISignInFormProps {}
 
@@ -30,7 +31,7 @@ const SignUpContainer: FC<ISignInFormProps> = () => {
   const dispatch = useDispatch();
   const { setSnack } = useContext(SnackContext);
 
-  const { loading, error, response, sendItBaby } = useAxios({
+  const { loading, error, response, sendItBaby, source } = useAxios({
     url: "/api/Users",
     method: "POST",
   });
@@ -43,52 +44,39 @@ const SignUpContainer: FC<ISignInFormProps> = () => {
       if (response?.status === 200) {
         dispatch(
           add({
+            id: response.data.data.id,
             name: response.data.data.username,
             email: response.data.data.email,
           }),
         );
         setSnack({
-          message: `Welcome ${response.data.data.username}`,
+          message: response.data.message,
           severity: "success",
         });
         navigate(ROOT);
       }
     }
-  }, [error, loading, response, setSnack, dispatch, navigate]);
+
+    return () => source?.cancel();
+  }, [error, loading, response, setSnack, dispatch, navigate, source]);
 
   const formik = useFormik({
     initialValues: {
-      name: "name",
-      email: "email@example.com",
+      name: "",
+      email: "",
     },
     validate,
     onSubmit: (values) => {
       sendItBaby({
-        name: values.name,
-        email: values.email,
+        data: {
+          name: values.name,
+          email: values.email,
+        },
       });
-      console.log({
-        error,
-        loading,
-        response,
-      });
-      if (!loading && response?.status === 200) {
-        dispatch(
-          add({
-            name: response.data.data.username,
-            email: response.data.data.email,
-          }),
-        );
-        setSnack({
-          message: `Welcome ${response.data.data.username}`,
-          severity: "success",
-        });
-        navigate(ROOT);
-      }
     },
   });
 
-  return <SignUpForm formik={formik} />;
+  return loading ? <Loading fullscreen /> : <SignUpForm formik={formik} />;
 };
 
 export default SignUpContainer;

@@ -17,8 +17,6 @@ const Feed = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log(response);
-
   return (
     <AxiosHandler error={error} success={success} loading={loading}>
       {posts.length ? (

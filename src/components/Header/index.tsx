@@ -1,9 +1,7 @@
-import { Box, Button, styled } from "@mui/material";
+import { Box, styled } from "@mui/material";
 import Logo from "../Logo";
 import AccountMenu from "./AccountMenu";
-import { WRITE } from "../../routes/routes";
-import { Edit } from "@mui/icons-material";
-import { useLocation } from "react-router-dom";
+import WriteButton from "./WriteButton";
 
 const StyledHeader = styled("header")(({ theme }) => ({
   display: "flex",
@@ -14,12 +12,10 @@ const StyledHeader = styled("header")(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
   boxShadow: theme.shadows[2],
   marginTop: theme.spacing(1),
+  marginBottom: theme.spacing(2),
 }));
 
 const Header = () => {
-  const location = useLocation();
-  const isWritePage = location.pathname === WRITE;
-
   return (
     <StyledHeader>
       <Logo />
@@ -28,11 +24,7 @@ const Header = () => {
           display: "flex",
         }}
       >
-        {!isWritePage && (
-          <Button href={WRITE} variant="outlined" startIcon={<Edit />}>
-            Write
-          </Button>
-        )}
+        <WriteButton />
         <AccountMenu />
       </Box>
     </StyledHeader>

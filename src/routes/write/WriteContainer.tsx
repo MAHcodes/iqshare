@@ -1,11 +1,10 @@
 import { useFormik } from "formik";
 import WriteForm from "./WriteForm";
-import { useEffect } from "react";
 import useAxios from "../../hooks/useAxios";
 import Loading from "../../components/Loading";
 
 const WriteContainer = () => {
-  const { sendItBaby, source, loading, response, error } = useAxios({
+  const { sendItBaby, loading } = useAxios({
     url: "/Posts",
   });
 
@@ -25,10 +24,6 @@ const WriteContainer = () => {
       });
     },
   });
-
-  useEffect(() => {
-    console.log({ response, error, loading });
-  }, [source, error, loading, response]);
 
   return loading ? <Loading fullscreen /> : <WriteForm formik={formik} />;
 };

@@ -33,6 +33,8 @@ const SignUpContainer: FC<ISignInFormProps> = () => {
     url: "/Users",
     method: "POST",
   });
+  const ok = response?.status === 200;
+  const success = ok && response?.data.message;
 
   useEffect(() => {
     if (response?.status === 200) {
@@ -66,11 +68,7 @@ const SignUpContainer: FC<ISignInFormProps> = () => {
   });
 
   return (
-    <AxiosHandler
-      error={error}
-      loading={loading}
-      success={response?.data.message}
-    >
+    <AxiosHandler error={error} loading={loading} success={success}>
       <SignUpForm formik={formik} />
     </AxiosHandler>
   );

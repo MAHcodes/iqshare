@@ -1,8 +1,8 @@
 import { Grid, Typography, styled } from "@mui/material";
 import { FC } from "react";
-import Tags from "./Tags";
 import { Link } from "react-router-dom";
 import { POST } from "../routes";
+import Tags from "./Tags";
 
 interface User {
   id: number;
@@ -40,7 +40,7 @@ const StyledBox = styled(Grid)(({ theme }) => ({
 
 const Post: FC<IPostProps> = ({ post }) => {
   return (
-    <Link to={`${POST}/${post.id}`}>
+    <Link style={{ textDecoration: "none" }} to={`${POST}/${post.id}`}>
       <StyledBox container columns={2}>
         <Grid item xs={2}>
           {/* {post.user.username} */}

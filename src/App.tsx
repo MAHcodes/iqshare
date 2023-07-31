@@ -11,6 +11,7 @@ const Settings = WithSuspense(lazy(() => import("./routes/settings")));
 const Write = WithSuspense(lazy(() => import("./routes/write")));
 const SignUp = WithSuspense(lazy(() => import("./routes/signup")));
 const NotFound = WithSuspense(lazy(() => import("./routes/404")));
+const Post = WithSuspense(lazy(() => import("./routes/post")));
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
       {
         path: ROUTES.PROFILE,
         element: <Profile />,
+      },
+      {
+        path: `${ROUTES.POST}/:postId`,
+        element: <Post />,
       },
     ],
   },

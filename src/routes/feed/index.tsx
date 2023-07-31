@@ -2,7 +2,9 @@ import { useEffect } from "react";
 import useAxios from "../../hooks/useAxios";
 import AxiosHandler from "../../components/AxiosHandler";
 import Post, { IPost } from "./Post";
-import NoPost from "./NoPost";
+import Error from "./NoPost";
+import WriteButton from "../../components/Header/WriteButton";
+import { MoodBad } from "@mui/icons-material";
 
 const Feed = () => {
   const { sendItBaby, response, error, loading } = useAxios({
@@ -19,10 +21,14 @@ const Feed = () => {
 
   return (
     <AxiosHandler error={error} success={success} loading={loading}>
-      {posts.length ? (
+      {error ? (
+        <Error message={error} />
+      ) : posts.length ? (
         posts.map((post: IPost) => <Post key={post.id} post={post} />)
       ) : (
-        <NoPost />
+        <Error message="No posts" Icon={MoodBad}>
+          <WriteButton />
+        </Error>
       )}
     </AxiosHandler>
   );

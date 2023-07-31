@@ -1,8 +1,19 @@
-import { MoodBad } from "@mui/icons-material";
+import { SvgIconComponent } from "@mui/icons-material";
 import { Box, Typography } from "@mui/material";
-import WriteButton from "../../components/Header/WriteButton";
+import { FC, ReactElement } from "react";
+import ErrorIcon from "@mui/icons-material/Error";
 
-const NoPost = () => {
+interface IErrorProps {
+  Icon?: SvgIconComponent;
+  message: string;
+  children?: ReactElement;
+}
+
+const Error: FC<IErrorProps> = ({ Icon, message, children }) => {
+  const iconStyles = {
+    color: "primary.main",
+  };
+
   return (
     <Box
       sx={{
@@ -14,11 +25,11 @@ const NoPost = () => {
         padding: "2rem",
       }}
     >
-      <MoodBad sx={{ color: "primary.main" }} />
-      <Typography>No posts</Typography>
-      <WriteButton />
+      {Icon ? <Icon sx={iconStyles} /> : <ErrorIcon sx={iconStyles} />}
+      <Typography>{message}</Typography>
+      {children}
     </Box>
   );
 };
 
-export default NoPost;
+export default Error;

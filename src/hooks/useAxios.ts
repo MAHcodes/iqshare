@@ -4,7 +4,6 @@ import axios, {
   CancelTokenSource,
 } from "axios";
 import { useState } from "react";
-import { DEFAULT_CONFIG } from "../config/axios";
 
 interface IState {
   loading: boolean;
@@ -31,7 +30,6 @@ const useAxios = (axiosConfig?: AxiosRequestConfig) => {
     });
     try {
       const response = await axios.request({
-        ...DEFAULT_CONFIG,
         ...axiosConfig,
         ...requestConfig,
         cancelToken: source.token,

@@ -10,7 +10,7 @@ const ProfilePage = () => {
   const { id: userId } = useSelector((state: RootState) => state.user);
 
   const { sendItBaby, response, error, ok, loading, success } = useAxios({
-    url: `/Users/${userId}`,
+    url: `/Users/byId?Id=${userId}`,
   });
 
   useEffect(() => {

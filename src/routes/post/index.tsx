@@ -8,7 +8,7 @@ import { useEffect } from "react";
 const PostPage = () => {
   const { postId } = useParams();
   const { sendItBaby, success, error, loading } = useAxios({
-    url: `/Posts/${postId}`,
+    url: `/Posts/byId?Id=${postId}`,
   });
 
   useEffect(() => {

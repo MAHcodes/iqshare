@@ -1,59 +1,45 @@
-import { FC } from "react";
-import { useSearchParams } from "react-router-dom";
-import Post, { IPost } from "./Post";
-import Error from "./NoPost";
-import WriteButton from "../../components/Header/WriteButton";
-import { MoodBad } from "@mui/icons-material";
-import { Pagination, Stack } from "@mui/material";
-import Posts from "./Posts";
+import { FC, useMemo, useState } from "react";
+import { AgGridReact } from "ag-grid-react";
+import usePosts from "../../hooks/usePosts";
+import { TextField } from "@mui/material";
 
-interface IFeedProps {
-  posts: IPost[];
-  error?: string;
-  title?: string;
-}
+interface IFeedProps {}
 
-const Feed: FC<IFeedProps> = ({ posts, error, title }) => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const currentPage = parseInt(searchParams.get("page") || "1");
-  const postsCountPerPage = 5;
-  const pagesCount = Math.ceil(posts.length / postsCountPerPage) || 1;
-  const currentPostsStartIndex =
-    currentPage * postsCountPerPage - postsCountPerPage;
-  const currentPostsEndIndex = currentPage * postsCountPerPage;
+const Feed: FC<IFeedProps> = () => {
+  const { posts, isLoading, isError } = usePosts();
 
-  const handlePaginate = (_: unknown, value: number) => {
-    searchParams.set("page", value.toString());
-    setSearchParams(searchParams);
-  };
+  const [columnDefs] = useState([
+    { field: "id", cellEditor: TextField, cellEditorPopup: true },
+    { field: "title", cellEditor: TextField, cellEditorPopup: true },
+    { field: "description" },
+    { field: "user.username", headerName: "Author" },
+    { field: "tagIds", headerName: "Tags" },
+    { field: "postedDate", headerName: "Post Date" },
+  ]);
+
+  const defaultColDef = useMemo(
+    () => ({
+      resizable: true,
+      sortable: true,
+    }),
+    [],
+  );
 
   return (
     <>
-      {error ? (
-        <Error message={error} />
-      ) : posts.length ? (
-        <Posts
-          posts={posts}
-          currentPostsStartIndex={currentPostsStartIndex}
-          currentPostsEndIndex={currentPostsEndIndex}
-          title={title}
+      <div
+        className="ag-theme-alpine"
+        style={{ height: "800px", width: "100%" }}
+      >
+        <AgGridReact
+          animateRows
+          rowData={posts}
+          defaultColDef={defaultColDef}
+          columnDefs={columnDefs}
+          rowSelection="multiple"
+          enableRangeSelection
         />
-      ) : (
-        <Error message="No posts" Icon={MoodBad}>
-          <WriteButton />
-        </Error>
-      )}
-      {pagesCount > 1 && (
-        <Stack spacing={2}>
-          <Pagination
-            page={currentPage}
-            count={pagesCount}
-            onChange={handlePaginate}
-            color="primary"
-            sx={{ marginInline: "auto", paddingBottom: "1rem" }}
-          />
-        </Stack>
-      )}
+      </div>
     </>
   );
 };

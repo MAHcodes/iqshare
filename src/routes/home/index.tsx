@@ -15,7 +15,7 @@ const Home = () => {
 
   return (
     <AxiosHandler error={error} success={success} loading={loading}>
-      <Feed posts={ok && response?.data} error={error} title="Latest Posts" />
+      <Feed posts={ok && response?.data} error={error} title="All Posts" />
     </AxiosHandler>
   );
 };

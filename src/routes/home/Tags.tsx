@@ -18,7 +18,7 @@ const Tags: FC<ITagsProps> = ({ ids }) => {
     (async () => {
       ids.forEach((id) => {
         sendItBaby({
-          url: `/Tags/${id}`,
+          url: `/Tags/byId?Id=${id}`,
         });
       });
     })();

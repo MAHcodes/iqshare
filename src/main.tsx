@@ -9,6 +9,9 @@ import Loading from "./components/Loading.tsx";
 import { Container } from "@mui/material";
 import SnackProvider from "./context/snack-provider.tsx";
 import CustomSnackbar from "./components/Snackbar.tsx";
+import axios from "axios";
+
+axios.defaults.baseURL = "https:localhost:5001";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

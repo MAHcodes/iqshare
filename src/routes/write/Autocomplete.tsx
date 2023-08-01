@@ -4,7 +4,7 @@ import { FC, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import useAxios from "../../hooks/useAxios";
-import { IPost } from "../feed/Post";
+import { IPost } from "../home/Post";
 
 interface IAutocompleteFormProps {
   formik: FormikValues;

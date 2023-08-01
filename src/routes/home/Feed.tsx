@@ -5,13 +5,15 @@ import Error from "./NoPost";
 import WriteButton from "../../components/Header/WriteButton";
 import { MoodBad } from "@mui/icons-material";
 import { Pagination, Stack } from "@mui/material";
+import Posts from "./Posts";
 
 interface IFeedProps {
   posts: IPost[];
   error?: string;
+  title?: string;
 }
 
-const Feed: FC<IFeedProps> = ({ posts, error }) => {
+const Feed: FC<IFeedProps> = ({ posts, error, title }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const currentPage = parseInt(searchParams.get("page") || "1");
   const postsCountPerPage = 5;
@@ -30,23 +32,28 @@ const Feed: FC<IFeedProps> = ({ posts, error }) => {
       {error ? (
         <Error message={error} />
       ) : posts.length ? (
-        posts
-          .slice(currentPostsStartIndex, currentPostsEndIndex)
-          .map((post: IPost) => <Post key={post.id} post={post} />)
+        <Posts
+          posts={posts}
+          currentPostsStartIndex={currentPostsStartIndex}
+          currentPostsEndIndex={currentPostsEndIndex}
+          title={title}
+        />
       ) : (
         <Error message="No posts" Icon={MoodBad}>
           <WriteButton />
         </Error>
       )}
-      <Stack spacing={2}>
-        <Pagination
-          page={currentPage}
-          count={pagesCount}
-          onChange={handlePaginate}
-          color="primary"
-          sx={{ marginInline: "auto", paddingBottom: "1rem" }}
-        />
-      </Stack>
+      {pagesCount > 1 && (
+        <Stack spacing={2}>
+          <Pagination
+            page={currentPage}
+            count={pagesCount}
+            onChange={handlePaginate}
+            color="primary"
+            sx={{ marginInline: "auto", paddingBottom: "1rem" }}
+          />
+        </Stack>
+      )}
     </>
   );
 };

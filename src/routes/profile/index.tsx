@@ -1,4 +1,10 @@
-import { IPost } from "../feed/Post";
+import { useSelector } from "react-redux";
+import { IPost } from "../home/Post";
+import { RootState } from "../../redux/store";
+import useAxios from "../../hooks/useAxios";
+import { useEffect } from "react";
+import AxiosHandler from "../../components/AxiosHandler";
+import Feed from "../home/Feed";
 
 export interface IUser {
   id: number;
@@ -8,13 +14,23 @@ export interface IUser {
 }
 
 const Profile = () => {
+  const { id: userId } = useSelector((state: RootState) => state.user);
+
+  const { sendItBaby, ok, response, error, loading, success } = useAxios({
+    url: `/Users/${userId}`,
+  });
+
+  useEffect(() => {
+    sendItBaby();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
-    <p>
-      Lorem ipsum dolor sit, amet consectetur adipisicing elit. Veritatis atque
-      animi quisquam corporis reiciendis repudiandae cumque vitae expedita velit
-      commodi, neque ipsam, alias ratione officia cupiditate, voluptates at
-      blanditiis quia?
-    </p>
+    <AxiosHandler error={error} success={success} loading={loading}>
+      {response?.data.username}
+      {response?.data.email}
+      <Feed posts={ok && response?.data.posts} error={error} />
+    </AxiosHandler>
   );
 };
 

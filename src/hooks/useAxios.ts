@@ -53,7 +53,10 @@ const useAxios = (axiosConfig?: AxiosRequestConfig) => {
     }
   };
 
-  return { sendItBaby, ...state };
+  const ok = state.response?.status === 200;
+  const success = ok && state.response?.data.message;
+
+  return { sendItBaby, ok, success, ...state };
 };
 
 export default useAxios;

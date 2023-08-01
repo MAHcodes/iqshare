@@ -29,12 +29,10 @@ const SignUpContainer: FC<ISignInFormProps> = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { loading, error, response, sendItBaby, source } = useAxios({
+  const { loading, error, response, sendItBaby, source, success } = useAxios({
     url: "/Users",
     method: "POST",
   });
-  const ok = response?.status === 200;
-  const success = ok && response?.data.message;
 
   useEffect(() => {
     if (response?.status === 200) {

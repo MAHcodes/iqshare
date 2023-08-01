@@ -7,11 +7,9 @@ import { useEffect } from "react";
 
 const PostPage = () => {
   const { postId } = useParams();
-  const { sendItBaby, response, error, loading } = useAxios({
+  const { sendItBaby, success, error, loading } = useAxios({
     url: `/Posts/${postId}`,
   });
-  const ok = response?.status === 200;
-  const success = ok && response?.data.message;
 
   useEffect(() => {
     sendItBaby();

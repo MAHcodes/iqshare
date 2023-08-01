@@ -5,7 +5,7 @@ import * as ROUTES from "./routes/routes";
 import WithSuspense from "./components/HOC/Loader";
 import { lazy } from "react";
 
-const Feed = WithSuspense(lazy(() => import("./routes/feed")));
+const Feed = WithSuspense(lazy(() => import("./routes/home")));
 const Profile = WithSuspense(lazy(() => import("./routes/profile")));
 const Settings = WithSuspense(lazy(() => import("./routes/settings")));
 const Write = WithSuspense(lazy(() => import("./routes/write")));
